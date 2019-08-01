@@ -1,3 +1,5 @@
+# Code from github @notsebastiano
+# https://github.com/notsebastiano/transfer_entropy
 
 from numpy import *
 from scipy import stats
@@ -11,13 +13,13 @@ def map_in_array(values):
 	if len(values)==2:
 		X = values[0]
 		Y = values[1]
-		data = array( map(lambda x,y: [x,y], X,Y))
+		data = array(list(map(lambda x,y: [x,y], X,Y)))
 		return data
 	if len(values)==3:
 		X = values[0]
 		Y = values[1]
 		Z = values[2]
-		data = array( map(lambda x,y,z: [x,y,z], X,Y,Z))
+		data = array(list(map(lambda x,y,z: [x,y,z], X,Y,Z)))
 		return data
 
 
@@ -25,14 +27,14 @@ def transfer_entropy(X,Y,delay=1,gaussian_sigma=None):
 	'''
 	TE implementation: asymmetric statistic measuring the reduction in uncertainty
 	for a future value of X given the history of X and Y. Or the amount
-	of information from Y to X. Calculated through the Kullback-Leibler divergence 
+	of information from Y to X. Calculated through the Kullback-Leibler divergence
 	with conditional probabilities
 
 	Args:
 		X = time series of scalars (array or list)
 		Y = time series of scalars (array or list)
 	Kwargs:
-		delay(int): 
+		delay(int):
 			step in tuple (x_n, y_n, x_(n - delay))
 		gaussian_sigma(int):
 			sigma to be used
@@ -108,11 +110,7 @@ def transfer_entropy(X,Y,delay=1,gaussian_sigma=None):
 				if arg2 == 0.0:
 					arg2 = float(1e-8)
 
-				term = pxyx2*log2(arg2) - pxyx2*log2(arg1) 
+				term = pxyx2*log2(arg2) - pxyx2*log2(arg1)
 				elements.append(term)
 
 	return sum(elements)
-
-
-
-
